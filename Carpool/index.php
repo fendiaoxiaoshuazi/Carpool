@@ -20,6 +20,16 @@
      height: 800px;
      float: left;
   }
+  #search_panel {
+     width: 1200px;
+     height: 50px;
+     float: left;
+  }
+  #demo {
+     width: 1200px;
+     height: 50px;
+     float: left;
+  }
   <!--.row {
       padding: 5px;
   }-->
@@ -43,6 +53,16 @@ if (!$conn) {
 
 <body>
 
+<div id = "search_panel"> 
+<form method="get">
+	Search_Start:<input type="text" id="Search_Start" name="Search_Start" value="Waterloo">
+	Search_End:<input type="text" id="Search_End" name="Search_End" value="Toronto">
+	<input type="button" id="Search_End" name="Search_End" value="Search">
+	
+</form>
+</div>
+
+<div id="demo"> kasdfsdf </div>
 
 <div id="user_panel"> 
 
@@ -191,8 +211,6 @@ echo $sql;
 
 </div>
 
-<div id="demo"> kasdfsdf </div>
-
 <div id="map_canvas">
 
 </div>
@@ -240,6 +258,8 @@ function initMap() {
 		//var myJSON = JSON.stringify(data);
 		//localStorage.setItem("testJSON", myJSON);
 	});
+	//!!!!!remember to add following function to delete the marker. when one of the 
+	//	following content changes, the markers should be deleted
 	/*document.getElementById("S_Point").addEventListener('change', function() {
 		data.startAddress = document.getElementById("S_Point").value;
 		codeAddress_S(geocoder, map, data);
