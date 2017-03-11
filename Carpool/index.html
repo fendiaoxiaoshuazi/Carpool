@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>Carpool</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+<!--script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAN14SUZl9lZWNTaRnCIsP8lm1LxnaQRAo&callback=initMap"
+    async defer ></script-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiHiLS6bxUWnytY2Nnr0ELahTxg6Kdpo8&callback=initMap"
+    async defer></script>  
+<style>
+  #user_panel {
+     width: 400px;
+     height: 800px;
+     float: left;
+  }
+  #map_canvas {
+     width: 300px;
+     height: 800px;
+     float: left;
+  }
+  <!--.row {
+      padding: 5px;
+  }-->
+ </style>
+  
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "Carpool";
+
+// Create connection to mySQL DB
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+// Check connection
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
+?>
+
+</head>
+
+<body>
+
+<div id="map_canvas">
+
+</div>
+
+<div id="user_panel"> 
+
+<p>
+<?php
+// define variables and set to empty values
+$dateErr = $timeErr = $sPointErr = $ePointErr = $contactErr = "";
+$D_Date = $D_Time = $S_Point = $E_Point = $Contact = $Comment = "";
+$sql = "Not qualified";
+$recorder = true;
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+  if (empty($_POST["D_Date"])) {
+    $dateErr = "D_Date is required";
+  } else {
+    $D_Date = test_input($_POST["D_Date"]);
+    // check if name only contains letters and whitespace
+    if (!preg_match("/^[0-9]{4}(-|\/)((0[1-9]|1[0-2])|[0-9])(-|\/)([0-9]|(0[1-9]|[1-2][0-9]|3[0-1]))$/",$D_Date)) {
+      $dateErr = "Only Date allowed"; 
+	  $recorder = false;
+    }
+  }
+  
+   if (empty($_POST["D_Time"])) {
+    $timeErr = "D_Time is required";
+  } else {
+    $D_Time = test_input($_POST["D_Time"]);
+    // check if name only contains letters and whitespace
+    if (!preg_match("/([0-1][0-9]|2[0-4]):[0-5][0-9](:[0-5][0-9]|)$/",$D_Time)) {
+      $timeErr = "Only time allowed"; 
+	  $recorder = false;
+    }
+  }
+  
+   if (empty($_POST["S_Point"])) {
+    $sPointErr = "S_Point is required";
+  } else {
+    $S_Point = test_input($_POST["S_Point"]);
+    // check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z ]*$/",$S_Point)) {
+      $sPointErr = "Only letters and white space allowed"; 
+	  $recorder = false;
+    }
+  }
+  
+   if (empty($_POST["E_Point"])) {
+    $ePointErr = "E_Point is required";
+  } else {
+    $E_Point = test_input($_POST["E_Point"]);
+    // check if name only contains letters and whitespace
+    if (!preg_match("/^[a-zA-Z ]*$/",$E_Point)) {
+      $ePointErr = "Only letters and white space allowed"; 
+	  $recorder = false;
+    }
+  }
+  
+  if (empty($_POST["Contact"])) {
+    $contactErr = "Contact is required";
+  } else {
+    $Contact = test_input($_POST["Contact"]);
+    // check if e-mail address is well-formed
+    if (!filter_var($Contact, FILTER_VALIDATE_EMAIL)) {
+      $contactErr = "Invalid email format"; 
+	  $recorder = false;
+    }
+  }
+
+  if (empty($_POST["Comment"])) {
+    $Comment = "";
+  } else {
+    $Comment = test_input($_POST["Comment"]);
+  }
+  
+  if ($D_Date AND $D_Time AND $S_Point AND $E_Point AND $Contact AND $Comment AND $recorder) {
+	$sql = "INSERT INTO provider (D_Date, D_Time, S_Point, E_Point, Contact, Comment)
+		VALUES ('".$D_Date."', '".$D_Time."', '".$S_Point."', '".$E_Point."', '".$Contact."', '".$Comment."')"; 
+	if (mysqli_query($conn, $sql)) {
+		echo "New record created successfully";
+	} else {
+		echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+	}
+  }
+}
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+?>
+</p>
+
+<h2>Carpool Provider Information</h2>
+<h3>Please provide the information of you carpool information</h3>
+<p><span class="error">* required field.</span></p>
+<form method="post" action="<?php  echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+  D_Date: <input type="date" id="D_Date" name="D_Date" value="<?php echo htmlspecialchars $D_Date;?>">
+  <span class="error">* <?php echo $dateErr;?></span>
+  <br><br>
+  D_Time: <input type="time" id="D_Time" name="D_Time" value="<?php echo htmlspecialchars $D_Time;?>">
+  <span class="error">* <?php echo $timeErr;?></span>
+  <br><br>
+  S_Point: <input type="text" id="S_Point" name="S_Point" value="<?php echo htmlspecialchars $S_Point;?>">
+  <span class="error">*<?php echo $sPointErr;?></span>
+  <br><br>
+  E_Point: <input type="text" id="E_Point" name="E_Point" value="<?php echo htmlspecialchars $E_Point;?>">
+  <span class="error">*<?php echo $ePointErr;?></span>
+  <br><br>
+  Contact(email): <input type="text" id="Contact" name="Contact" value="<?php echo htmlspecialchars $Contact;?>">
+  <span class="error">*<?php echo $contactErr;?></span>
+  <br><br>
+  Comment: <textarea id="Comment" name="Comment" rows="5" cols="40"><?php echo htmlspecialchars $Comment;?></textarea>
+  <br><br>
+  <input type="submit" id="Submit" name="submit" value="Submit">  
+</form>
+
+<?php
+echo "<h2>Your Input:</h2>";
+echo $D_Date;
+echo "<br>";
+echo $D_Time;
+echo "<br>";
+echo $S_Point;
+echo "<br>";
+echo $E_Point;
+echo "<br>";
+echo $Contact;
+echo "<br>";
+echo $Comment;
+echo "<br>";
+echo $sql;
+?>
+
+</div>
+
+<script type="text/javascript">    
+   
+function initMap() {    
+	var geocoder = new google.maps.Geocoder();    
+    var myOptions = {
+		zoom : 15, 
+		center: {lat: 43.472036, lng: -80.544847},
+		mapTypeId : google.maps.MapTypeId.ROADMAP 
+	}
+	var map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
+    //codeAddress();
+	document.getElementById("Submit").addEventListener('click', function() {
+		codeAddress(geocoder, map);
+	});
+} 
+   
+/*function addMarker (address, geocoder, resultmap) {
+	var data = {}
+	var dataString = localStorage.getItem("data");
+	if (dataString) {
+		data = JSON.parse(dataString);
+	} else {
+		data = {};
+    }
+    //document.getElementById("price").value =data.price || "";
+    //document.getElementById("D_Time").value = data.startTime || "";  
+	//var price = document.getElementById("price").value
+    //var startTime = document.getElementById("D_Time").value;
+    geocoder.geocode({'address' : address}, function(results, status) {
+			if (status == 'OK') {
+				console.log("enteryes");
+				resultmap.setCenter(results[0].geometry.location);
+				console.log(results[0].geometry);
+				console.log(status);
+				console.log(results[0].geometry.location);
+				var marker = new google.maps.Marker({
+					map : resultmap,
+					position : {lat: 43.472036, lng: -80.544847},
+					title : address,
+					animation : google.maps.Animation.DROP 
+				});    
+                var display = "address: " + results[0].formatted_address;  
+                var infowindow = new google.maps.InfoWindow({
+					content : "<span style='font-size:11px'><b>Name: </b>"    
+                                + address + "<br>" + display + 
+                      					"<br>" + 
+                        "<b>Start Time:</b>" +  startTime + "<br>" +
+                      "<b>Price:</b>" + //price + "<br>" +                    
+                      "</span>",
+					pixelOffset : 0,
+					position : results[0].geometry.location 
+				});
+				infowindow.open(map, marker);
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(map, marker);
+				});
+				console.log("outyes");		
+            } else {
+				console.log("enterno");
+				alert("Geocode was not successful for the following reason: " + status);    
+            }    
+        }
+    );    
+}*/
+
+/*function clearData() {
+	localStorage.setItem("data", "");
+}*/
+
+/*function codeAddress() {
+	var data = {}
+	var dataString = localStorage.getItem("data");
+	console.log(dataString)
+	if (dataString) {
+		data = JSON.parse(dataString);
+	} else {
+		data = {};
+    }
+	//document.getElementById("S_Point").value =data.startAddress || "waterloo";
+    //document.getElementById("E_Point").value = data.endAddress || "";
+    //document.getElementById("price").value =data.price || "";
+    //document.getElementById("D_Time").value = data.startTime || "";
+    var startaddress = document.getElementById("S_Point").value;
+    var endAddress = document.getElementById("E_Point").value;    
+    if (startaddress) {addMarker(startaddress)};
+    if (endAddress) {addMarker(endAddress)};
+}*/
+    
+function codeAddress(geocoder, resultmap) {
+	var startDate = document.getElementById("D_Date").value;
+	var startTime = document.getElementById("D_Time").value;
+	var startAddress = document.getElementById("S_Point").value;
+	var endAddress = document.getElementById("E_Point").value; 
+	var Contact = document.getElementById("Contact").value;
+	var Comment = document.getElementById("Comment").value;
+	//var price = document.getElementById("price").value;
+	var data = {
+		startDate: startDate,
+		startTime: startTime,
+		startAddress: startAddress,
+		endAddress: endAddress,
+		//price: price,
+		Contact: Contact,
+		Comment: Comment
+	};
+	console.log(data)
+    var dataString = JSON.stringify(data);
+    localStorage.setItem("data", dataString);
+	
+	//function codeAddress()
+	//var data = {}
+	//var dataString = localStorage.getItem("data");
+	console.log(dataString)
+	//if (dataString) {
+	//	data = JSON.parse(dataString);
+	//} else {
+	//	data = {};
+    //}
+	//document.getElementById("S_Point").value =data.startAddress || "waterloo";
+    //document.getElementById("E_Point").value = data.endAddress || "";
+    //document.getElementById("price").value =data.price || "";
+    //document.getElementById("D_Time").value = data.startTime || "";
+    //var startaddress = document.getElementById("S_Point").value;
+    //var endAddress = document.getElementById("E_Point").value;
+	//console.log(startaddress);
+    //if (startAddress) addMarker(startAddress, geocoder, map);
+    //if (endAddress) addMarker(endAddress, geocoder, map);
+    geocoder.geocode({'address' : startAddress}, function(results, status) {
+			if (status == 'OK') {
+				console.log("enteryes");
+				resultmap.setCenter(results[0].geometry.location);
+				console.log(results[0].geometry);
+				console.log(status);
+				console.log(results[0].geometry.location);
+				var marker = new google.maps.Marker({
+					map : resultmap,
+					position : {lat: 43.472036, lng: -80.544847},
+					title : startAddress,
+					animation : google.maps.Animation.DROP 
+				});    
+                var display = "address: " + results[0].formatted_address;  
+                var infowindow = new google.maps.InfoWindow({
+					content : "<span style='font-size:11px'><b>Name: </b>"    
+                                + startAddress + "<br>" + display + 
+                      					"<br>" + 
+                        "<b>Start Time:</b>" +  startTime + "<br>" +
+                      "<b>Price:</b>" + //price + "<br>" +                    
+                      "</span>",
+					pixelOffset : 0,
+					position : results[0].geometry.location 
+				});
+				infowindow.open(resultmap, marker);
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(resultmap, marker);
+				});
+				console.log("outyes");		
+            } else {
+				console.log(status);
+				alert("Geocode was not successful for the following reason: " + status);    
+            }    
+        }
+    );  
+    geocoder.geocode({'address' : endAddress}, function(results, status) {
+			if (status == 'OK') {
+				console.log("enteryes");
+				resultmap.setCenter(results[0].geometry.location);
+				console.log(results[0].geometry);
+				console.log(status);
+				console.log(results[0].geometry.location);
+				var marker = new google.maps.Marker({
+					map : resultmap,
+					position : {lat: 43.472036, lng: -80.544847},
+					title : endAddress,
+					animation : google.maps.Animation.DROP 
+				});    
+                var display = "address: " + results[0].formatted_address;  
+                var infowindow = new google.maps.InfoWindow({
+					content : "<span style='font-size:11px'><b>Name: </b>"    
+                                + endAddress + "<br>" + display + 
+                      					"<br>" + 
+                        "<b>Start Time:</b>" +  startTime + "<br>" +
+                      "<b>Price:</b>" + //price + "<br>" +                    
+                      "</span>",
+					pixelOffset : 0,
+					position : results[0].geometry.location 
+				});
+				infowindow.open(resultmap, marker);
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(resultmap, marker);
+				});
+				console.log("outyes");		
+            } else {
+				console.log(status);
+				alert("Geocode was not successful for the following reason: " + status);    
+            }    
+       }
+    );	
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<html>  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+    <script type="text/javascript"    
+        src="http://maps.google.com/maps/api/js?sensor=false"></script>    
+    <script type="text/javascript">    
+        var geocoder;    
+        var map; 
+        function initialize() {    
+            geocoder = new google.maps.Geocoder();    
+            var myOptions = {    
+                zoom : 15,    
+                mapTypeId : google.maps.MapTypeId.ROADMAP    
+            }    
+            map = new google.maps.Map(document.getElementById("map_canvas"),    
+                    myOptions);    
+            //codeAddress();    
+        }    
+      function addMarker (address) {
+        		 var data = {}
+					var dataString = localStorage.getItem("data");
+          console.log(dataString)
+            if (dataString) {
+                data = JSON.parse(dataString);
+            } else {
+                data = {};
+            }
+                   var price = document.getElementById("price").value =data.price || "";
+            var startTime = document.getElementById("start_time").value = data.startTime || "";  
+            geocoder.geocode({    
+                'address' : address    
+            }, function(results, status) {
+			console.log(typeof address);
+				console.log(results[0].geometry.location);		
+                if (status == google.maps.GeocoderStatus.OK) {       
+                    map.setCenter(results[0].geometry.location);    
+                    var marker = new google.maps.Marker({    
+                        map : map,    
+                        position : results[0].geometry.location,    
+                        title : address,       
+                        animation : google.maps.Animation.DROP    
+                    });    
+                    var display = "address: " + results[0].formatted_address;  
+                    var infowindow = new google.maps.InfoWindow({    
+                        content : "<span style='font-size:11px'><b>Name: </b>"    
+                                + address + "<br>" + display + 
+                      					"<br>" + 
+                        "<b>Start Time:</b>" +  startTime + "<br>" +
+                      "<b>Price:</b>" + price + "<br>" +
+                   
+                      
+                      "</span>",    
+                        pixelOffset : 0,    
+                        position : results[0].geometry.location    
+        
+                    });     
+                    infowindow.open(map, marker);    
+                    google.maps.event.addListener(marker, 'click', function() {    
+                        infowindow.open(map, marker);    
+                    });    
+                } else {    
+                    alert("Geocode was not successful for the following reason: " + status);    
+                }    
+            });    
+			}
+
+            function clearData() {
+      	        localStorage.setItem("data", "");
+                
+            }
+        function codeAddress() {  
+     		 var data = {}
+					var dataString = localStorage.getItem("data");
+          console.log(dataString)
+            if (dataString) {
+                data = JSON.parse(dataString);
+            } else {
+                data = {};
+            }
+
+            document.getElementById("start_address").value =data.startAddress || "waterloo";
+            document.getElementById("end_address").value = data.endAddress || "";
+            document.getElementById("price").value =data.price || "";
+            document.getElementById("start_time").value = data.startTime || "";
+            var address = document.getElementById("start_address").value;
+          	var endAddress = document.getElementById("end_address").value;    
+            if (address) { addMarker(address)};
+          	if (endAddress) { addMarker(endAddress)};
+            
+        }    
+      function save() {
+        var startAddress = document.getElementById("start_address").value;
+        var endAddress = document.getElementById("end_address").value;  
+        var price = document.getElementById("price").value;
+        var startTime = document.getElementById("start_time").value;  
+         
+        var data = {
+            startAddress: startAddress,
+            endAddress: endAddress,
+            price: price,
+            startTime: startTime
+        };
+        var dataString = JSON.stringify(data);
+      	localStorage.setItem("data", dataString);
+      }
+    </script>    
+  <style>
+    #user_panel {
+     width: 400px;
+      height: 400px;
+      float: left;
+    }
+    #map_canvas {
+      width: 600px;
+      height: 400px;
+      float: left;
+    }
+    .row {
+      padding: 5px;
+    }
+  </style>
+</head>  
+  
+  
+  
+<body>  
+ <body onload="initialize()">  
+   <div id="user_panel">  
+     <div class="row"> Start Address:<input id="start_address" type="textbox" value=""> </div>  
+     <div class="row"> End Address:<input id="end_address" type="textbox" value="">  </div>
+     <div class="row"> Price:<input id="price" type="textbox" value="1.1">  </div>
+     <div class="row"> Start Time:<input id="start_time" type="textbox" value="16:00">  </div>
+     <input type="button" value="Save" onclick="save()">  
+     <input type="button" value="Clear Data" onclick="clearData()">  
+     
+
+     <input type="button" value="Get Route" onclick="codeAddress()">  
+   </div> 
+   
+   
+        <div id="map_canvas"></div>  
+ 
+    </body>  
+</body>  
+</html> 
