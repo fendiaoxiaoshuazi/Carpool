@@ -55,14 +55,13 @@ if (!$conn) {
 
 <div id = "search_panel"> 
 <form method="get">
-	Search_Start:<input type="text" id="Search_Start" name="Search_Start" value="Waterloo">
-	Search_End:<input type="text" id="Search_End" name="Search_End" value="Toronto">
-	<input type="button" id="Search_End" name="Search_End" value="Search">
-	
+	Search_Start:<input type="text" id="Search_Start" name="Search_Start" value="">
+	Search_End:<input type="text" id="Search_End" name="Search_End" value="">
+	<input type="button" id="Search_Search" name="Search_End" value="Search">
 </form>
 </div>
 
-<div id="demo"> kasdfsdf </div>
+<div id="demo"> test information </div>
 
 <div id="user_panel"> 
 
@@ -162,16 +161,16 @@ function test_input($data) {
 <h2>Carpool Provider Information</h2>
 <h3>Please provide the information of you carpool information</h3>
 <p><span class="error">* required field.</span></p>
-<form method="get" <!--action="<?php  echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"-->>
+<form method="get" <!--action="<?php  echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"-->
 <fieldset>
 <legend> STEP ONE </legend>
-  D_Date: <input type="date" id="D_Date" name="D_Date" value="2017/3/11"<!--?php echo $D_Date;?-->>
+  D_Date: <input type="date" id="D_Date" name="D_Date" value="2017/3/11"<!--?php echo $D_Date;?-->
   <span class="error">* <!--?php echo $dateErr;?--></span>
   <br><br>
-  D_Time: <input type="time" id="D_Time" name="D_Time" value="2:29"<!--?php echo $D_Time;?-->>
+  D_Time: <input type="time" id="D_Time" name="D_Time" value="2:29"<!--?php echo $D_Time;?-->
   <span class="error">* <!--?php echo $timeErr;?--></span>
   <br><br>
-  Contact(email): <input type="text" id="Contact" name="Contact" value="j293xu@uwaterloo.ca"<!--?php echo $Contact;?-->>
+  Contact(email): <input type="text" id="Contact" name="Contact" value="j293xu@uwaterloo.ca"<!--?php echo $Contact;?-->
   <span class="error">*<!--?php echo $contactErr;?--></span>
   <br><br>
   Price: <textarea id="Comment" name="Comment" rows="5" cols="40">90</textarea>
@@ -179,10 +178,10 @@ function test_input($data) {
 <br><br>
 <fieldset>
 <legend> STEP TWO </legend>
-  S_Point: <input type="text" id="S_Point" name="S_Point" value="Waterloo"<!--?php echo $S_Point;?-->>
+  S_Point: <input type="text" id="S_Point" name="S_Point" value="Waterloo"<!--?php echo $S_Point;?-->
   <span class="error">*<!--?php echo $sPointErr;?--></span>
   <br><br>
-  E_Point: <input type="text" id="E_Point" name="E_Point" value="Toronto"<!--?php echo $E_Point;?-->>
+  E_Point: <input type="text" id="E_Point" name="E_Point" value="Toronto"<!--?php echo $E_Point;?-->
   <span class="error">*<!--?php echo $ePointErr;?--></span>
   <br><br>
   <input type="button" id="Preview" name="preview" value="Preview">
@@ -240,7 +239,16 @@ function initMap() {
 		S_Coordinate: S_Coordinate,
 		E_Coordinate: E_Coordinate,
 	};
-	console.log(data)
+	
+	var Search_Start, Search_End, SearchS_Coordinate, SearchE_Coordinate;
+	var search_D = {
+		Search_Start: Search_Start,
+		Search_End: Search_End,
+		SearchS_Coordinate: SearchS_Coordinate,
+		SearchE_Coordinate: SearchE_Coordinate
+	};
+	console.log(data);
+	console.log(search_D );
     //var dataString = JSON.stringify(data);
     //localStorage.setItem("data", dataString);
 	document.getElementById("Submit").addEventListener('click', function() {
@@ -276,10 +284,18 @@ function initMap() {
 	});
 	document.getElementById("Contact").addEventListener('change', function() {
 		data.Contact = document.getElementById("Contact").value;
-	});
-	document.getElementById("Comment").addEventListener('change', function() {
-		data.price = document.getElementById("Comment").value;
 	});*/
+	document.getElementById("Search_Start").addEventListener('change', function() {
+		search_D.Search_Start = document.getElementById("Search_Start").value;
+		getAddress_S(geocoder, map, search_D);
+	});
+	document.getElementById("Search_End").addEventListener('change', function() {
+		search_D.Search_End = document.getElementById("Search_End").value;
+		getAddress_E(geocoder, map, search_D);
+	});
+	document.getElementById("Search_Search").addEventListener('click', function() {
+		SaveSearch(search_D);
+	});
 } 
 
 function SaveJson (data) {
@@ -300,6 +316,28 @@ function SaveJson (data) {
 		}
 	}
 	xmlhttp.open("GET", "connectDB.php?x=" + myJSON, true);
+	//xmlhttp.setRequestHeader("Content-type","text/plain");
+	xmlhttp.send();
+}
+
+function SaveSearch (search_D) {
+	var myJSON, xmlhttp, myObj, x, txt = "";
+	//console.log(localStorage.getItem("testJSON"));
+	//myJSON = localStorage.getItem("testJSON")
+	//localStorage.setItem("testJSON", myJSON);
+	var myJSON = JSON.stringify(search_D);
+	console.log(myJSON);
+	xmlhttp = new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function() {
+		if(this.readyState == 4 && this.status == 200) {
+			//myObj = JSON.parse(this.responseText);
+			//console.log(this.responseText);
+			document.getElementById("demo").innerHTML = this.responseText;
+		} else {
+			document.getElementById("demo").innerHTML = "textcontent_fail";
+		}
+	}
+	xmlhttp.open("GET", "searchDB.php?x=" + myJSON, true);
 	//xmlhttp.setRequestHeader("Content-type","text/plain");
 	xmlhttp.send();
 }
@@ -381,6 +419,92 @@ function codeAddress_E(geocoder, resultmap, data) {
 					console.log(centerP);
 					resultmap.setCenter(centerP);
 				}
+				console.log("outyes");		
+            } else {
+				console.log(status);
+				alert("Geocode was not successful for the following reason: " + status);    
+            }    
+        }
+    );  
+}
+
+function getAddress_S(geocoder, resultmap, search_D) {
+	console.log(search_D);
+    //var dataString = JSON.stringify(data);
+    //localStorage.setItem("data", dataString);
+    geocoder.geocode({'address' : search_D.Search_Start}, function(results, status) {
+			if (status == 'OK') {
+				console.log("enteryes");
+				search_D.SearchS_Coordinate = results[0].geometry.location;
+				/*var marker = new google.maps.Marker({
+					map : resultmap,
+					position : (results[0].geometry.location),
+					title : data.endAddress,
+					//animation : google.maps.Animation.DROP 
+				});    
+                var display = "address: " + results[0].formatted_address;  
+                var infowindow = new google.maps.InfoWindow({
+					content : "<span style='font-size:11px'><b>Name: </b>"    
+                                + data.endAddress + "<br>" + display + 
+                      					"<br>" + 
+                        "<b>Start Time:</b>" +  data.startTime + "<br>" +
+                      "<b>Price:</b>" + data.price + "<br>" +                    
+                      "</span>",
+					pixelOffset : 0,
+					position : results[0].geometry.location 
+				});
+				infowindow.open(resultmap, marker);
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(resultmap, marker);
+				});
+				if (data.S_Coordinate && data.E_Coordinate) {
+					var centerP = google.maps.geometry.spherical.interpolate(data.S_Coordinate, data.E_Coordinate, 0.5);
+					console.log(centerP);
+					resultmap.setCenter(centerP);
+				}*/
+				console.log("outyes");		
+            } else {
+				console.log(status);
+				alert("Geocode was not successful for the following reason: " + status);    
+            }    
+        }
+    );  
+}
+
+function getAddress_E(geocoder, resultmap, search_D) {
+	console.log(search_D);
+    //var dataString = JSON.stringify(data);
+    //localStorage.setItem("data", dataString);
+    geocoder.geocode({'address' : search_D.Search_End}, function(results, status) {
+			if (status == 'OK') {
+				console.log("enteryes");
+				search_D.SearchE_Coordinate = results[0].geometry.location;
+				/*var marker = new google.maps.Marker({
+					map : resultmap,
+					position : (results[0].geometry.location),
+					title : data.endAddress,
+					//animation : google.maps.Animation.DROP 
+				});    
+                var display = "address: " + results[0].formatted_address;  
+                var infowindow = new google.maps.InfoWindow({
+					content : "<span style='font-size:11px'><b>Name: </b>"    
+                                + data.endAddress + "<br>" + display + 
+                      					"<br>" + 
+                        "<b>Start Time:</b>" +  data.startTime + "<br>" +
+                      "<b>Price:</b>" + data.price + "<br>" +                    
+                      "</span>",
+					pixelOffset : 0,
+					position : results[0].geometry.location 
+				});
+				infowindow.open(resultmap, marker);
+				google.maps.event.addListener(marker, 'click', function() {
+					infowindow.open(resultmap, marker);
+				});
+				if (data.S_Coordinate && data.E_Coordinate) {
+					var centerP = google.maps.geometry.spherical.interpolate(data.S_Coordinate, data.E_Coordinate, 0.5);
+					console.log(centerP);
+					resultmap.setCenter(centerP);
+				}*/
 				console.log("outyes");		
             } else {
 				console.log(status);
