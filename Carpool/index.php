@@ -337,7 +337,7 @@ function SaveSearch (search_D) {
 			document.getElementById("demo").innerHTML = "textcontent_fail";
 		}
 	}
-	xmlhttp.open("GET", "searchDB.php?x=" + myJSON, true);
+	xmlhttp.open("GET", "searchDB.php?y=" + myJSON, true);
 	//xmlhttp.setRequestHeader("Content-type","text/plain");
 	xmlhttp.send();
 }
