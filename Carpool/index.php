@@ -27,7 +27,7 @@
   }
   #demo {
      width: 1200px;
-     height: 50px;
+     height: 200px;
      float: left;
   }
   <!--.row {
@@ -330,9 +330,13 @@ function SaveSearch (search_D) {
 	xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
 		if(this.readyState == 4 && this.status == 200) {
-			//myObj = JSON.parse(this.responseText);
+			myObj = JSON.parse(this.responseText);
+			for (x in myObj) {
+				txt += myObj[x].Contact + "<br>";
+				//addmarker, addroute
+			}	
 			//console.log(this.responseText);
-			document.getElementById("demo").innerHTML = this.responseText;
+			document.getElementById("demo").innerHTML = txt;
 		} else {
 			document.getElementById("demo").innerHTML = "textcontent_fail";
 		}
