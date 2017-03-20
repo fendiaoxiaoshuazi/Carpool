@@ -17,9 +17,9 @@
 	$SearchS_Coordinate = "ST_GeomFromText('POINT(".$dataJSON->SearchS_Coordinate->lat." ".$dataJSON->SearchS_Coordinate->lng.")')";
 	$SearchE_Coordinate = "ST_GeomFromText('POINT(".$dataJSON->SearchE_Coordinate->lat." ".$dataJSON->SearchE_Coordinate->lng.")')";
 	
-	$sql1 = "SET @buffurS = ST_Buffer(".$SearchS_Coordinate.", 1);";
-	$sql2 = "SET @buffurE = ST_Buffer(".$SearchE_Coordinate.", 1);";
-	$sql3 = "select D_Date, D_Time, S_Point, E_Point, Contact, Comment, ST_asText(S_Coordinate), ST_asText(E_Coordinate) from provider
+	$sql1 = "SET @buffurS = ST_Buffer(".$SearchS_Coordinate.", 2);";
+	$sql2 = "SET @buffurE = ST_Buffer(".$SearchE_Coordinate.", 2);";
+	$sql3 = "select D_Date, D_Time, S_Point, E_Point, Contact, Comment, x(S_Coordinate), y(S_Coordinate), x(E_Coordinate), y(E_Coordinate) from provider
 	where ST_Contains(@buffurS, S_Coordinate) and ST_Contains(@buffurE, E_Coordinate);";
 	
 	$result="";
