@@ -1,47 +1,48 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 
 <title>Carpool</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">    
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1">   
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiHiLS6bxUWnytY2Nnr0ELahTxg6Kdpo8&callback=initMap&libraries=geometry"
-    async defer></script> 
 <script src="/carpool/script.php" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiHiLS6bxUWnytY2Nnr0ELahTxg6Kdpo8&callback=initMap&libraries=geometry" async defer></script> 
+
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- Custom Theme files -->
+<link href="/carpool/css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
+<link href="/carpool/css/popup-box.css" rel="stylesheet" type="text/css" media="all">
+<link href="/carpool/css/style.css" type="text/css" rel="stylesheet" media="all"> 
+<!--link href="css/main-gallery.css" rel="stylesheet"  type="text/css" media="screen" />  <!-- flexslider-CSS --> 
+<link href="/carpool/css/font-awesome.css" rel="stylesheet">		<!-- font-awesome icons -->
+<!-- //Custom Theme files --> 
 	
 <style>
+.leftdiv {
+	width: 45%;
+	float: left;
+	position: relative;
+}
+.rightdiv {
+	width: 45%;
+	float: right;
+	position: relative;
+}
   #user_panel {
-     width: 500px;
-     height: 800px;
+     width: 100%;
+     height: 100%;
      float: left;
   }
   #map_canvas {
-     width: 700px;
-     height: 800px;
-     float: left;
-  }
-  #search_panel {
-     width: 1200px;
-     height: 50px;
+     width: 80%;
+     height: 90%;
      float: left;
   }
   #demo {
      width: 1200px;
      height: 200px;
      float: left;
-  }
-  table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-  }
-  tr:nth-child(even) {
-    background-color: #dddddd;
   }
   .close {
     color: #aaa;
@@ -55,193 +56,136 @@
     text-decoration: none;
     cursor: pointer;
   }
-  <!--.modal {
-    display: none; /* Hidden by default */
+.modal {
+    display: hide; /*  none Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    left: 10%;
+    top: 10%;
+    width: 80%; /* Full width */
+    height: 80%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-  }-->
+}
+#Submit{
+    padding: 13px 30px;
+    border: 2px solid #168eea;
+    font-size: 16px;
+    color: #fff;
+    background: #168eea;
+    text-decoration: none;
+    outline: none;
+    transition: 0.5s all;
+    -webkit-transition: 0.5s all;
+    -moz-transition: 0.5s all;
+    -o-transition: 0.5s all;
+    -ms-transition: 0.5s all;
+	letter-spacing:1px;
+}
   <!--.row {
       padding: 5px;
   }-->
- </style>
+</style>
 
 </head>
 
-<body>
+<body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+
+<!-- header -->
+		<div class="header-w3layouts"> 
+			<!-- Navigation -->
+			<nav class="navbar navbar-default navbar-fixed-top">
+				<div class="container">
+					<div class="navbar-header page-scroll">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+							<span class="sr-only">WatPool</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<h1><a class="navbar-brand" href="index.html">WatPool</a></h1>
+					</div> 
+					<!-- Collect the nav links, forms, and other content for toggling -->
+					<div class="collapse navbar-collapse navbar-ex1-collapse">
+						<ul class="nav navbar-nav navbar-right">
+							<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+							<li class="hidden"><a class="page-scroll" href="#page-top"></a></li>
+							<li><a class="page-scroll scroll" href="/carpool"><div id="combainicon">Home</div></a></li>
+							<li><a class="page-scroll scroll" href="/carpool/provider.php"><div id="combainicon">Provide</div></a></li>
+							<li><a class="page-scroll scroll" href="/carpool/customer.php"><div id="combainicon">Seek</div></a></li>
+						</ul>
+					</div>
+					<!-- /.navbar-collapse -->
+				</div>
+				<!-- /.container -->
+			</nav>  
+		</div>	
+		<!-- //header -->
 
 <button id="myBtn">Open Modal</button>
 
-<!--div id="myModal" class="modal"-->
-<div id="user_panel"> 
-<span class="close">&times;</span>
 
-<p>
-<!--?php
-// define variables and set to empty values
-$dateErr = $timeErr = $sPointErr = $ePointErr = $contactErr = "";
-$D_Date = $D_Time = $S_Point = $E_Point = $Contact = $Comment = "";
-$sql = "Not qualified";
-$recorder = true;
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-  if (empty($_POST["D_Date"])) {
-    $dateErr = "D_Date is required";
-  } else {
-    $D_Date = test_input($_POST["D_Date"]);
-    // check if name only contains letters and whitespace
-    if (!preg_match("/^[0-9]{4}(-|\/)((0[1-9]|1[0-2])|[0-9])(-|\/)([0-9]|(0[1-9]|[1-2][0-9]|3[0-1]))$/",$D_Date)) {
-      $dateErr = "Only Date allowed"; 
-	  $recorder = false;
-    }
-  }
-  
-   if (empty($_POST["D_Time"])) {
-    $timeErr = "D_Time is required";
-  } else {
-    $D_Time = test_input($_POST["D_Time"]);
-    // check if name only contains letters and whitespace
-    if (!preg_match("/([0-1][0-9]|2[0-4]):[0-5][0-9](:[0-5][0-9]|)$/",$D_Time)) {
-      $timeErr = "Only time allowed"; 
-	  $recorder = false;
-    }
-  }
-  
-   if (empty($_POST["S_Point"])) {
-    $sPointErr = "S_Point is required";
-  } else {
-    $S_Point = test_input($_POST["S_Point"]);
-    // check if name only contains letters and whitespace
-    if (!preg_match("/^[a-zA-Z ]*$/",$S_Point)) {
-      $sPointErr = "Only letters and white space allowed"; 
-	  $recorder = false;
-    }
-  }
-  
-   if (empty($_POST["E_Point"])) {
-    $ePointErr = "E_Point is required";
-  } else {
-    $E_Point = test_input($_POST["E_Point"]);
-    // check if name only contains letters and whitespace
-    if (!preg_match("/^[a-zA-Z ]*$/",$E_Point)) {
-      $ePointErr = "Only letters and white space allowed"; 
-	  $recorder = false;
-    }
-  }
-  
-  if (empty($_POST["Contact"])) {
-    $contactErr = "Contact is required";
-  } else {
-    $Contact = test_input($_POST["Contact"]);
-    // check if e-mail address is well-formed
-    if (!filter_var($Contact, FILTER_VALIDATE_EMAIL)) {
-      $contactErr = "Invalid email format"; 
-	  $recorder = false;
-    }
-  }
-
-  if (empty($_POST["Comment"])) {
-    $Comment = "";
-  } else {
-    $Comment = test_input($_POST["Comment"]);
-  }
-  
-  if ($D_Date AND $D_Time AND $S_Point AND $E_Point AND $Contact AND $Comment AND $recorder) {
-	//require 'connectDB.php';
-	//echo $resultA;
-	// echo $resutlB;
-	//$sql = "INSERT INTO provider (D_Date, D_Time, S_Point, E_Point, Contact, Comment)
-	//	VALUES ('".$D_Date."', '".$D_Time."', '".$S_Point."', '".$E_Point."', '".$Contact."', '".$Comment."')"; 
-	//if (mysqli_query($conn, $sql)) {
-	//	echo "New record created successfully";
-	//} else {
-	//	echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-	//}
-  }
-}
-
-function test_input($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
-?-->
-</p>
-
-<h2>Carpool Provider Information</h2>
-<h3>Please provide the information of you carpool information</h3>
-<p><span class="error">* required field.</span></p>
-<form method="get" <!--action="<?php  echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"-->
-<fieldset>
-<legend> STEP ONE </legend>
-  D_Date: <input type="date" id="D_Date" name="D_Date" value="2017/3/11"<!--?php echo $D_Date;?-->
-  <span class="error">* <!--?php echo $dateErr;?--></span>
-  <br><br>
-  D_Time: <input type="time" id="D_Time" name="D_Time" value="2:29"<!--?php echo $D_Time;?-->
-  <span class="error">* <!--?php echo $timeErr;?--></span>
-  <br><br>
-  Contact(email): <input type="text" id="Contact" name="Contact" value="j293xu@uwaterloo.ca"<!--?php echo $Contact;?-->
-  <span class="error">*<!--?php echo $contactErr;?--></span>
-  <br><br>
-  Price: <textarea id="Comment" name="Comment" rows="5" cols="40">90</textarea>
-</fieldset>
-<br><br>
-<fieldset>
-<legend> STEP TWO </legend>
-  S_Point: <input type="text" id="S_Point" name="S_Point" value="Waterloo"<!--?php echo $S_Point;?-->
-  <span class="error">*<!--?php echo $sPointErr;?--></span>
-  <br><br>
-  E_Point: <input type="text" id="E_Point" name="E_Point" value="Toronto"<!--?php echo $E_Point;?-->
-  <span class="error">*<!--?php echo $ePointErr;?--></span>
-  <br><br>
-  <input type="button" id="Preview" name="preview" value="Preview">
-</fieldset>
-<br><br>
-<input type="button" id="Submit" name="submit" value="Submit">
-  <!--input type="button" id="Submit" name="submit" value="Submit"-->
-</form>
-
-<!--?php
-echo "<h2>Your Input:</h2>";
-echo $D_Date;
-echo "<br>";
-echo $D_Time;
-echo "<br>";
-echo $S_Point;
-echo "<br>";
-echo $E_Point;
-echo "<br>";
-echo $Contact;
-echo "<br>";
-echo $Comment;
-echo "<br>";
-echo $sql;
-?-->
-
+<!-- modal -->
+<div id="myModal" class="modal">	
+	<div id="map_canvas"></div>
+	<span class="close">&times;</span>
+	<input type="button" id="Submit" name="submit" value="Submit">
+	<div id="demo"> test information </div>
 </div>
-<!--/div-->
+<!-- //modal --> 
 
-<div id="map_canvas">
-
+<!-- form -->
+<div class="contact" id="contact">
+	<div class="contact-top">
+		<h3 class="title-w3 con">Carpool Provider Information</h2>
+		<p class="sub-text">Please provide the information of you carpool information</p>
+		<p><span class="error">* required field.</span></p>
+		<form method="get" class="contact_form slideanim">
+			<div class="message">
+				<div class="leftdiv">
+					<legend> STEP ONE </legend>
+					D_Date: <input type="date" class="margin-right" id="D_Date" name="D_Date" placeholder="D_Date">
+					<span class="error">* <!--?php echo $dateErr;?--></span>
+					D_Time: <input type="time" class="margin-right" id="D_Time" name="D_Time" placeholder="D_Time">
+					<span class="error">* <!--?php echo $timeErr;?--></span>
+					Contact(email): <input type="text" class="margin-right" id="Contact" name="Contact" placeholder="Contact (email)">
+					<span class="error">*<!--?php echo $contactErr;?--></span>
+					Price: <textarea id="Comment" name="Comment" rows="2" cols="30" placeholder="Price & Comment"></textarea>
+				</div>
+				<div class="rightdiv">
+					<legend> STEP TWO </legend>
+					S_Point: <input type="text" id="S_Point" name="S_Point" placeholder="S_Point">
+					<span class="error">*<!--?php echo $sPointErr;?--></span>
+					<br><br>
+					E_Point: <input type="text" id="E_Point" name="E_Point" placeholder="E_Point">
+					<span class="error">*<!--?php echo $ePointErr;?--></span>
+				</div>
+				<br><br>
+			</div>
+			<input type="button" id="Preview" name="preview" value="Preview">
+			<br><br>
+		</form>
+	</div>
 </div>
+<!-- //from -->
 
-<div id="demo"> test information </div>
+<!-- footer -->
+<div class="copy-right">
+	<p>&copy; 2017 Dance Whirl. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+</div>	
+<!-- //footer -->
 
 <script type="text/javascript"> 
+
 
 // model control
 // Get the modal
 var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
-var btn = document.getElementById("myBtn");
+var btn = document.getElementById("Preview");
+var btn2 = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
@@ -249,6 +193,11 @@ var span = document.getElementsByClassName("close")[0];
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
     modal.style.display = "block";
+	google.maps.event.trigger(map, "resize");
+}
+btn2.onclick = function() {
+    modal.style.display = "block";
+	google.maps.event.trigger(map, "resize");
 }
 
 // When the user clicks on <span> (x), close the modal
@@ -262,6 +211,7 @@ window.onclick = function(event) {
         modal.style.display = "none";
     }
 }
+
 
 var markers = [];
 var map, geocoder, directionsService, directionsDisplay;
@@ -306,8 +256,8 @@ function initMap() {
 		data.startAddress = document.getElementById("S_Point").value;
 		data.endAddress = document.getElementById("E_Point").value;
 		codeAddress_S(function() {
-			codeAddress_E();
-        });
+			codeAddress_E(FRouteScenter);
+		});
 	});
 } 
 

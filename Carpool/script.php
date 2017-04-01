@@ -59,20 +59,22 @@ function ffindroute(Pa, Pb) {
 
 // Add cluster
 function addcluster() {
-	console.log(markers1);
-	console.log(markers1.length);
-	console.log(markers2);
-	console.log(markers2.length);
-	console.log("enteraddcluster");
-	
-	var markerCluster1 = new MarkerClusterer(Smap1, markers1,
-            {imagePath: '/carpool/library/markerclusterer/images/m'});
-	var markerCluster2 = new MarkerClusterer(Smap2, markers2,
-            {imagePath: '/carpool/library/markerclusterer/images/m'});
+	//console.log(markers1);
+	//console.log(markers1.length);
+	//console.log(markers2);
+	//console.log(markers2.length);
+	//console.log("enteraddcluster");
+
+	var markerCluster1 = new MarkerClusterer(Smap1, markers1, {
+			imagePath: '/carpool/library/markerclusterer/images/m'
+		});
+	var markerCluster2 = new MarkerClusterer(Smap2, markers2, {
+			imagePath: '/carpool/library/markerclusterer/images/m'
+		});
 	//markerCluster1.addMarkers(markers1[0]);
-	console.log(markerCluster1.getMarkers());
-	console.log(markerCluster2.getMarkers());
-	
+	//console.log(markerCluster1.getMarkers());
+	//console.log(markerCluster2.getMarkers());
+
 }
 
 function SaveJson() {
@@ -107,7 +109,6 @@ function SaveSearch(search_D) {
 	myObj,
 	x = "";
 	var txt = "<table stype='width:100%'><tr><th>Date</th><th>Time</th><th>Contact</th><th>Price</th></tr>";
-	//console.log(localStorage.getItem("testJSON"));";
 	//console.log(localStorage.getItem("testJSON"));
 	//myJSON = localStorage.getItem("testJSON")
 	//localStorage.setItem("testJSON", myJSON);
@@ -123,11 +124,11 @@ function SaveSearch(search_D) {
 				showing_result(myObj[x]);
 			}
 			txt += "</table>";
-			//console.log(txt);
+			console.log(txt);
 			document.getElementById("demo").innerHTML = txt;
-			
+
 			//add cluster
-			console.log(markers1.length);
+			//console.log(markers1.length);
 			addcluster();
 		} else {
 			document.getElementById("demo").innerHTML = "textcontent_fail";
@@ -136,47 +137,47 @@ function SaveSearch(search_D) {
 	xmlhttp.open("GET", "searchDB.php?y=" + myJSON, true);
 	//xmlhttp.setRequestHeader("Content-type","text/plain");
 	xmlhttp.send();
-	
+
 	//set center
 	fsetcenter(search_D.SearchS_Coordinate, search_D.SearchE_Coordinate, map);
 	fsmallcenter(search_D.SearchS_Coordinate, Smap1);
 	fsmallcenter(search_D.SearchE_Coordinate, Smap2);
 	//console.log(markers);
-		
+
 	//add buffer
 	var cityCircle = new google.maps.Circle({
-		strokeColor: '#FF0000',
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		fillColor: '#FF0000',
-		fillOpacity: 0.35,
-		map: map,
-		center: search_D.SearchS_Coordinate,
-		radius: 5000,
-	})
-	var cityCircle = new google.maps.Circle({
-		strokeColor: '#FF0000',
-		strokeOpacity: 0.8,
-		strokeWeight: 2,
-		fillColor: '#FF0000',
-		fillOpacity: 0.35,
-		map: map,
-		center: search_D.SearchE_Coordinate,
-		radius: 5000,
-	})
-	
-	//add route
-	directionsService.route({
-		origin: search_D.SearchS_Coordinate,
-		destination: search_D.SearchE_Coordinate,
-		travelMode: 'DRIVING'
-	}, function (response, status) {
-		if (status === 'OK') {
-			directionsDisplay.setDirections(response);
-		} else {
-			window.alert('Directions request failed due to ' + status);
-		}
-	});
+			strokeColor: '#FF0000',
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: '#FF0000',
+			fillOpacity: 0.35,
+			map: map,
+			center: search_D.SearchS_Coordinate,
+			radius: 5000,
+		})
+		var cityCircle = new google.maps.Circle({
+			strokeColor: '#FF0000',
+			strokeOpacity: 0.8,
+			strokeWeight: 2,
+			fillColor: '#FF0000',
+			fillOpacity: 0.35,
+			map: map,
+			center: search_D.SearchE_Coordinate,
+			radius: 5000,
+		})
+
+		//add route
+		directionsService.route({
+			origin: search_D.SearchS_Coordinate,
+			destination: search_D.SearchE_Coordinate,
+			travelMode: 'DRIVING'
+		}, function (response, status) {
+			if (status === 'OK') {
+				directionsDisplay.setDirections(response);
+			} else {
+				window.alert('Directions request failed due to ' + status);
+			}
+		});
 
 }
 
@@ -190,29 +191,34 @@ function codeAddress_S(callback) {
 	}, function (results, status) {
 		if (status == 'OK') {
 			console.log("enteryes");
+			data.startAddress = results[0].formatted_address;
 			data.S_Coordinate = results[0].geometry.location;
+
+			/*
 			var marker = new google.maps.Marker({
-					map: map,
-					position: (results[0].geometry.location),
-					title: data.startAddress,
-					//animation : google.maps.Animation.DROP
-				});
+			map: map,
+			position: (results[0].geometry.location),
+			title: data.startAddress,
+			//animation : google.maps.Animation.DROP
+			});
 			var display = "address: " + results[0].formatted_address;
 			var infowindow = new google.maps.InfoWindow({
-					content: "<span style='font-size:11px'><b>Name: </b>"
-					 + data.startAddress + "<br>" + display +
-					"<br>" +
-					"<b>Start Time:</b>" + data.startTime + "<br>" +
-					"<b>Price:</b>" + data.price + "<br>" +
-					"</span>",
-					pixelOffset: 0,
-					position: results[0].geometry.location
-				});
+			content: "<span style='font-size:11px'><b>Name: </b>"
+			+ data.startAddress + "<br>" + display +
+			"<br>" +
+			"<b>Start Time:</b>" + data.startTime + "<br>" +
+			"<b>Price:</b>" + data.price + "<br>" +
+			"</span>",
+			pixelOffset: 0,
+			position: results[0].geometry.location
+			});
 			infowindow.open(map, marker);
 			google.maps.event.addListener(marker, 'click', function () {
-				infowindow.open(map, marker);
+			infowindow.open(map, marker);
 			});
 			markers.push(marker);
+			 */
+
 			console.log("outyes");
 		} else {
 			console.log(status);
@@ -222,7 +228,7 @@ function codeAddress_S(callback) {
 	callback();
 }
 
-function codeAddress_E() {
+function codeAddress_E(callback) {
 	console.log(data)
 	//var dataString = JSON.stringify(data);
 	//localStorage.setItem("data", dataString);
@@ -231,40 +237,67 @@ function codeAddress_E() {
 	}, function (results, status) {
 		if (status == 'OK') {
 			console.log("enteryes");
+			data.endAddress = results[0].formatted_address;
 			data.E_Coordinate = results[0].geometry.location;
+			/*
 			var marker = new google.maps.Marker({
-					map: map,
-					position: (results[0].geometry.location),
-					title: data.endAddress,
-					//animation : google.maps.Animation.DROP
-				});
+			map: map,
+			position: (results[0].geometry.location),
+			title: data.endAddress,
+			//animation : google.maps.Animation.DROP
+			});
 			var display = "address: " + results[0].formatted_address;
 			var infowindow = new google.maps.InfoWindow({
-					content: "<span style='font-size:11px'><b>Name: </b>"
-					 + data.endAddress + "<br>" + display +
-					"<br>" +
-					"<b>Start Time:</b>" + data.startTime + "<br>" +
-					"<b>Price:</b>" + data.price + "<br>" +
-					"</span>",
-					pixelOffset: 0,
-					position: results[0].geometry.location
-				});
-			infowindow.open(map, marker);
-			google.maps.event.addListener(marker, 'click', function () {
-				infowindow.open(map, marker);
+			content: "<span style='font-size:11px'><b>Name: </b>"
+			+ data.endAddress + "<br>" + display +
+			"<br>" +
+			"<b>Start Time:</b>" + data.startTime + "<br>" +
+			"<b>Price:</b>" + data.price + "<br>" +
+			"</span>",
+			pixelOffset: 0,
+			position: results[0].geometry.location
 			});
 			markers.push(marker);
-			//reset center
-			if (data.S_Coordinate && data.E_Coordinate) {
-				fsetcenter(data.S_Coordinate, data.E_Coordinate);
-				ffindroute(data.S_Coordinate, data.E_Coordinate);
-			}
+			 */
+			callback(data.S_Coordinate, data.E_Coordinate, map);
 			console.log("outyes");
 		} else {
 			console.log(status);
 			alert("Geocode was not successful for the following reason: " + status);
 		}
 	});
+}
+
+function FRouteScenter(pa, pb, map) {
+
+	console.log("enter_FRouteScenter");
+
+	// add route
+	ffindroute(pa, pb);
+
+	// reset center
+	fsetcenter(pa, pb, map);
+
+	// add info window
+	var centerP = google.maps.geometry.spherical.interpolate(pa, pb, '0.5');
+	var infowindow = new google.maps.InfoWindow({
+			content: "<span style='font-size:11px'>" +
+			"<b>Start Address: </b>" + data.startAddress + "<br>" +
+			"<b>End Address: </b>" + data.endAddress + "<br>" +
+			"<b>Start Date:</b>" + data.startDate + "<br>" +
+			"<b>Start Time:</b>" + data.startTime + "<br>" +
+			"<b>Price:</b>" + data.price + "<br>" +
+			"</span>",
+			pixelOffset: 0,
+			position: centerP
+		});
+	infowindow.open(map);
+	google.maps.event.addListener(map, 'click', function () {
+		infowindow.open(map);
+	});
+
+	console.log("exit_FRouteScenter");
+
 }
 
 //for searching
@@ -399,18 +432,18 @@ function showing_result(object) {
 	google.maps.event.addListener(marker, 'click', function() {
 	infowindow.open(map, marker);
 	}; */
-	
+
 	/*
 	directionsService.route({
-		origin: location_S,
-		destination: location_E,
-		travelMode: 'DRIVING'
+	origin: location_S,
+	destination: location_E,
+	travelMode: 'DRIVING'
 	}, function (response, status) {
-		if (status === 'OK') {
-			directionsDisplay.setDirections(response);
-		} else {
-			window.alert('Directions request failed due to ' + status);
-		}
+	if (status === 'OK') {
+	directionsDisplay.setDirections(response);
+	} else {
+	window.alert('Directions request failed due to ' + status);
+	}
 	});
-	*/
+	 */
 }
