@@ -20,10 +20,12 @@
 <!-- //Custom Theme files --> 
  	
 <style>
-  #map_canvas {
-     width: 50%;
-     height: 50%;
+#map_canvas {
+     width: 93%;
+     height: 92%;
      float: left;
+	 margin-top: 3em;
+	 margin-left: 2em;
   }
   table {
     font-family: arial, sans-serif;
@@ -31,17 +33,24 @@
     width: 100%;
   }
   td, th {
-    border: 1px solid #dddddd;
+    border: 1px solid;
     text-align: left;
     padding: 8px;
   }
+  th {
+	 background-color: #FFD54F;
+	 color: #000000;
+  }
   tr:nth-child(even) {
-    background-color: #dddddd;
+    background-color: #DFDFDF;
+  }
+  tr:nth-child(odd) {
+    background-color: #FFFFFF;
   }
   .close {
-    color: #aaa;
+    color: #E4B429;
     float: right;
-    font-size: 28px;
+    font-size: 35px;
     font-weight: bold;
   }
   .close:hover,
@@ -53,11 +62,17 @@
   
 .search_panel {
 	position: relative;
+	left: 20px;
 	top: 100px;
 	width: 98%;
 	height: 50px;
 	float: left;
 	margin: 10px;
+}
+
+.search_panel form{
+	color: #FFFFFF;
+	font-weight: 900;
 }
 
 .search_panel input[type="text"]{
@@ -67,20 +82,21 @@
     font-size: 14px;
     padding: 14px 17px 14px;
     outline: none;
-    color: #FFF;
+    color: #000000;
     height: 50px;
     border: 1px solid #424141;
     margin: 0 0 20px;
-    background: rgba(239, 235, 235, 0.18);
+    background: #FFFFFF;
 	letter-spacing:1px;	
 }
 
 .search_panel input[type="button"]{
-    padding: 13px 30px;
-    border: 2px solid #168eea;
+    padding: 1em 2em;
+    border: none;
     font-size: 16px;
-    color: #fff;
-    background: #168eea;
+	font-weight: 900;
+    color: #E4B429;
+    background: #000000;
     text-decoration: none;
     outline: none;
     transition: 0.5s all;
@@ -91,6 +107,11 @@
 	letter-spacing:1px;
 }
 
+.search_panel input[type="button"]:hover  {
+	background-color: #FFD54F;
+	color: #000000;
+}
+
 form.search_panel {
     text-align: center;
     margin-top: 45px;
@@ -98,7 +119,7 @@ form.search_panel {
 
 .Smap_container {
 	position: relative;
-	top: 100px;
+	top: 0px;
 	width: 98%;
 	height: 500px;
 	float: left;
@@ -106,30 +127,30 @@ form.search_panel {
 }
 
 #map_details1 {
-    width: 48%;
-    height: 95%;
+    width: 49%;
+    height: 100%;
     float: left;
-	margin: 10px;
+	margin: 5px;
 }
 
 #map_details2 {
-    width: 48%;
-    height: 95%;
+    width: 49%;
+    height: 100%;
     float: right;
-	margin: 10px;
+	margin: 5px;
 }
 #demo {
+	background-color: #DFDFDF;
 	position: relative;
-	top: 100px;
+	top: 5px;
 	overflow: auto;
-    width: 98%;
+    width: 100%;
     height: 400px;
     float: left;
-	margin: 10px;
 }
 .copy-right {
 	position: relative;
-	top: 100px;
+	top: 10px;
 }
 .modal {
     display: hide; /*  none Hidden by default */
@@ -142,6 +163,14 @@ form.search_panel {
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.title {
+	position: relative;
+	top: 0px;
+	width: 100%;
+	height: 200px;
+	background-color:#A2A2A2;
 }
 </style>
   
@@ -167,17 +196,35 @@ form.search_panel {
 						<ul class="nav navbar-nav navbar-right">
 							<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
 							<li class="hidden"><a class="page-scroll" href="#page-top"></a></li>
-							<li><a class="page-scroll scroll" href="/carpool"><div id="combainicon">Home</div></a></li>
-							<li><a class="page-scroll scroll" href="/carpool/provider.php"><div id="combainicon">Provide</div></a></li>
-							<li><a class="page-scroll scroll" href="/carpool/customer.php"><div id="combainicon">Seek</div></a></li>
+							<li><a class="page-scroll scroll" href="/carpool"><div class="combainicon"><span class="fa fa-car" style="text-align: center"><br>Home</div></a></li>
+							<li><a class="page-scroll scroll" href="/carpool/provider.php"><div class="combainicon"><span class="fa fa-share-alt" style="text-align: center"><br>Provide</div></a></li>
+							<li><a class="page-scroll scroll" href="/carpool/customer.php"><div class="combainicon"><span class="fa fa-search" style="text-align: center"><br>Seek</div></a></li>
 						</ul>
 					</div>
 					<!-- /.navbar-collapse -->
 				</div>
 				<!-- /.container -->
-			</nav>  
+				<div class="row">
+					<div style="background-color:#FFFFAA; width:25%; float:left"><p><br></p></div>
+					<div style="background-color:#FFEA3D; width:25%; float:left"><p><br></p></div>
+					<div style="background-color:#FFD54F; width:25%; float:left"><p><br></p></div>
+					<div style="background-color:#E4B429; width:25%; float:left"><p><br></p></div>
+				</div>
+			</nav>			
 		</div>	
 <!-- //header -->
+
+<div class="row">
+	<div class="title">
+		<div id = "search_panel" class = "search_panel"> 
+			<form method="get">
+				Search_Start:<input type="text" id="Search_Start" name="Search_Start" value=""><span>   </span>
+				Search_End:<input type="text" id="Search_End" name="Search_End" value="">
+				<input type="button" id="Search_Search" name="Search_End" value="Search">
+			</form>
+		</div>
+	</div>
+</div>
 
 <!-- modal -->
 <div id="myModal" class="modal">	
@@ -186,29 +233,23 @@ form.search_panel {
 </div>
 <!-- //modal --> 
 
-<div id = "search_panel" class = "search_panel"> 
-<form method="get">
-	Search_Start:<input type="text" id="Search_Start" name="Search_Start" value="">
-	Search_End:<input type="text" id="Search_End" name="Search_End" value="">
-	<input type="button" id="Search_Search" name="Search_End" value="Search">
-</form>
-</div>
+
 
 <div class = "Smap_container">
 	<div id="map_details1"></div>
 	<div id="map_details2"></div>
 </div>
 
-<div id="demo"> test information </div>
+<div id="demo"> Results </div>
 
 
 <div class="clearfix"></div>
 <!-- footer -->
 <div class="copy-right">
-	<p>&copy; 2017 Dance Whirl. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+	<p>&copy; 2017 GEOG483 group. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> & Jiateng</p>
 </div>	
 <!-- //footer -->
-<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+<a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="color:#E4B429; opacity: 1;"> </span></a>
 
 <script type="text/javascript">
 
@@ -242,10 +283,10 @@ window.onclick = function(event) {
     }
 }
 
-var markers = [];
 var markers1 = [];
 var markers2 = [];
-var map, Smap1, Smap2, geocoder, directionsService, directionsDisplay;
+var circle = [];
+var map, Smap1, Smap2, geocoder, directionsService, directionsDisplay, markerCluster1, markerCluster2;
  
    
 function initMap() { 
@@ -259,6 +300,12 @@ function initMap() {
 	map = new google.maps.Map(document.getElementById("map_canvas"),myOptions);
 	Smap1 = new google.maps.Map(document.getElementById("map_details1"),myOptions);
 	Smap2 = new google.maps.Map(document.getElementById("map_details2"),myOptions);
+	markerCluster1 = new MarkerClusterer(Smap1, markers1, {
+			imagePath: '/carpool/library/markerclusterer/images/m'
+		});
+	markerCluster2 = new MarkerClusterer(Smap2, markers2, {
+			imagePath: '/carpool/library/markerclusterer/images/m'
+		});
 
 	
 	directionsService = new google.maps.DirectionsService;
@@ -284,13 +331,16 @@ function initMap() {
 		getAddress_E(search_D);
 	});
 	document.getElementById("Search_Search").addEventListener('click', function() {
-		//deleteMarkers(map, markers);
-		//deleteMarkers(Smap1, markers1);
-		//deleteMarkers(Smap2, markers2);
+		deleteMarkers(Smap1, markers1);
+		deleteMarkers(Smap2, markers2);
+		deleteMarkers(map, circle);
 		SaveSearch(search_D);
-	});
-} 
+		console.log("2");
+	}); 
+}
 
 </script>
+<script src="/carpool/js/jquery-2.2.3.min.js"></script>
+<script src="js/bootstrap.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 // Sets the map on all markers in the array.
-function setMapOnAll(map, makers) {
+function setMapOnAll(map, markers) {
 	for (var i = 0; i < markers.length; i++) {
 		markers[i].setMap(map);
 	}
@@ -7,7 +7,7 @@ function setMapOnAll(map, makers) {
 
 // Removes the markers from the map, but keeps them in the array.
 function clearMarkers(map, markers) {
-	setMapOnAll(map, null);
+	setMapOnAll(null, markers);
 }
 
 // Shows any markers currently in the array.
@@ -18,7 +18,7 @@ function showMarkers(map, markers) {
 // Deletes all markers in the array by removing references to them.
 function deleteMarkers(map, markers) {
 	clearMarkers(map, markers);
-	markers = [];
+	markers.length = 0;
 }
 
 // Set center and extent
@@ -59,21 +59,14 @@ function ffindroute(Pa, Pb) {
 
 // Add cluster
 function addcluster() {
-	//console.log(markers1);
-	//console.log(markers1.length);
-	//console.log(markers2);
-	//console.log(markers2.length);
-	//console.log("enteraddcluster");
-
-	var markerCluster1 = new MarkerClusterer(Smap1, markers1, {
-			imagePath: '/carpool/library/markerclusterer/images/m'
-		});
-	var markerCluster2 = new MarkerClusterer(Smap2, markers2, {
-			imagePath: '/carpool/library/markerclusterer/images/m'
-		});
-	//markerCluster1.addMarkers(markers1[0]);
-	//console.log(markerCluster1.getMarkers());
-	//console.log(markerCluster2.getMarkers());
+	console.log("enterAddcluster");
+	markerCluster1.clearMarkers();
+	markerCluster2.clearMarkers();
+	markerCluster1.addMarkers(markers1);
+	markerCluster2.addMarkers(markers2);
+	console.log(markerCluster1.getMarkers());
+	console.log(markerCluster2.getMarkers());
+	console.log("exitAddcluster");
 
 }
 
@@ -107,8 +100,13 @@ function SaveSearch(search_D) {
 	var myJSON,
 	xmlhttp,
 	myObj,
-	x = "";
-	var txt = "<table stype='width:100%'><tr><th>Date</th><th>Time</th><th>Contact</th><th>Price</th></tr>";
+	x = "", i = 1;
+	//markers1 = [];
+	//markers2 = [];
+	//cluster1 = [];
+	//cluster2 = [];
+	//circle = [];
+	var txt = "<table stype='width:100%'><tr><th>No</th><th>Date</th><th>Time</th><th>Start</th><th>End</th><th>Contact</th><th>Price</th></tr>";
 	//console.log(localStorage.getItem("testJSON"));
 	//myJSON = localStorage.getItem("testJSON")
 	//localStorage.setItem("testJSON", myJSON);
@@ -119,12 +117,13 @@ function SaveSearch(search_D) {
 		if (this.readyState == 4 && this.status == 200) {
 			myObj = JSON.parse(this.responseText);
 			for (x in myObj) {
-				txt += "<tr><td>" + myObj[x].D_Date + "</td><td>" + myObj[x].D_Time + "</td><td>" + myObj[x].Contact + "</td><td>" + myObj[x].Comment + "</td></tr>";
+				txt += "<tr><td>" + i + "</td><td>" +myObj[x].D_Date + "</td><td>" + myObj[x].D_Time + "</td><td>" + myObj[x].S_Point + "</td><td>" + myObj[x].E_Point + "</td><td>" +myObj[x].Contact + "</td><td>" + myObj[x].Comment + "</td></tr>";
 				//addmarker, addroute
-				showing_result(myObj[x]);
+				showing_result(myObj[x], i);
+				i = i + 1;
 			}
 			txt += "</table>";
-			console.log(txt);
+			//console.log(txt);
 			document.getElementById("demo").innerHTML = txt;
 
 			//add cluster
@@ -155,6 +154,7 @@ function SaveSearch(search_D) {
 			center: search_D.SearchS_Coordinate,
 			radius: 5000,
 		})
+	circle.push(cityCircle);
 		var cityCircle = new google.maps.Circle({
 			strokeColor: '#FF0000',
 			strokeOpacity: 0.8,
@@ -165,6 +165,7 @@ function SaveSearch(search_D) {
 			center: search_D.SearchE_Coordinate,
 			radius: 5000,
 		})
+	circle.push(cityCircle);
 
 		//add route
 		directionsService.route({
@@ -392,7 +393,7 @@ function getAddress_E(search_D) {
 }
 
 //for showing result
-function showing_result(object) {
+function showing_result(object, i) {
 	//console.log(markers1);
 	//console.log(markers1.length);
 	//console.log(object);
@@ -406,6 +407,7 @@ function showing_result(object) {
 	};
 	//console.log(location);
 	var marker_S = new google.maps.Marker({
+			label: ""+i+"",
 			map: Smap1,
 			position: (location_S),
 			title: object.Comment,
@@ -413,6 +415,7 @@ function showing_result(object) {
 		});
 	markers1.push(marker_S);
 	var marker_E = new google.maps.Marker({
+			label: ""+i+"",
 			map: Smap2,
 			position: (location_E),
 			title: object.Comment,

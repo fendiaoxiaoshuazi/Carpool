@@ -29,25 +29,31 @@
 	float: right;
 	position: relative;
 }
-  #user_panel {
+#user_panel {
      width: 100%;
      height: 100%;
      float: left;
   }
-  #map_canvas {
-     width: 80%;
-     height: 90%;
+#map_canvas {
+     width: 95%;
+     height: 75%;
      float: left;
+	 margin-top: 0px;
+	 margin-left: 2em;
   }
-  #demo {
-     width: 1200px;
-     height: 200px;
-     float: left;
-  }
+#demo {
+    width: 100%;
+    height: 170px;
+    float: left;
+	color: #FFFFFF;
+	padding: 2em;
+	background-color: #787878;
+	
+}
   .close {
-    color: #aaa;
+    color: #E4B429;
     float: right;
-    font-size: 28px;
+    font-size: 35px;
     font-weight: bold;
   }
   .close:hover,
@@ -69,11 +75,12 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 #Submit{
-    padding: 13px 30px;
-    border: 2px solid #168eea;
+    padding: 20px 200px;
+    border: none;
     font-size: 16px;
-    color: #fff;
-    background: #168eea;
+	font-weight: 900;
+    color: #E4B429;
+    background: #000000;
     text-decoration: none;
     outline: none;
     transition: 0.5s all;
@@ -83,9 +90,36 @@
     -ms-transition: 0.5s all;
 	letter-spacing:1px;
 }
-  <!--.row {
-      padding: 5px;
-  }-->
+#Submit:hover{
+	background-color: #FFD54F;
+	color: #000000;
+}
+
+.title {
+	position: relative;
+	top: 0px;
+	width: 100%;
+	height: 200px;
+	background-color:#DFDFDF;
+}  
+.formtitle {
+	text-align: center;
+	position: relative;
+	top: 105px;
+	left: 20px;
+	color:black;
+}
+
+.formtitle h3{
+    font-size: 3em;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    font-weight: 900;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+}
+
+
 </style>
 
 </head>
@@ -111,26 +145,38 @@
 						<ul class="nav navbar-nav navbar-right">
 							<!-- Hidden li included to remove active class from about link when scrolled up past about section -->
 							<li class="hidden"><a class="page-scroll" href="#page-top"></a></li>
-							<li><a class="page-scroll scroll" href="/carpool"><div id="combainicon">Home</div></a></li>
-							<li><a class="page-scroll scroll" href="/carpool/provider.php"><div id="combainicon">Provide</div></a></li>
-							<li><a class="page-scroll scroll" href="/carpool/customer.php"><div id="combainicon">Seek</div></a></li>
+							<li><a class="page-scroll scroll" href="/carpool"><div class="combainicon"><span class="fa fa-car" style="text-align: center"><br>Home</div></a></li>
+							<li><a class="page-scroll scroll" href="/carpool/provider.php"><div class="combainicon"><span class="fa fa-share-alt" style="text-align: center"><br>Provide</div></a></li>
+							<li><a class="page-scroll scroll" href="/carpool/customer.php"><div class="combainicon"><span class="fa fa-search" style="text-align: center"><br>Seek</div></a></li>
 						</ul>
 					</div>
 					<!-- /.navbar-collapse -->
 				</div>
 				<!-- /.container -->
-			</nav>  
+				<div class="row">
+					<div style="background-color:#FFFFAA; width:25%; float:left"><p><br></p></div>
+					<div style="background-color:#FFEA3D; width:25%; float:left"><p><br></p></div>
+					<div style="background-color:#FFD54F; width:25%; float:left"><p><br></p></div>
+					<div style="background-color:#E4B429; width:25%; float:left"><p><br></p></div>
+				</div>
+			</nav>		
 		</div>	
-		<!-- //header -->
+<!-- //header -->
 
-<button id="myBtn">Open Modal</button>
-
+<div class="row">
+	<div class="title">
+		<div class="formtitle">
+			<h3>Carpool Provider Information</h3>
+			<p>Please provide the information of you carpool information * required field</p>
+		</div>
+	</div>
+</div>
 
 <!-- modal -->
-<div id="myModal" class="modal">	
-	<div id="map_canvas"></div>
+<div id="myModal" class="modal">
 	<span class="close">&times;</span>
-	<input type="button" id="Submit" name="submit" value="Submit">
+	<input type="button" id="Submit" name="submit" value="Submit">	
+	<div id="map_canvas"></div>
 	<div id="demo"> test information </div>
 </div>
 <!-- //modal --> 
@@ -138,28 +184,31 @@
 <!-- form -->
 <div class="contact" id="contact">
 	<div class="contact-top">
-		<h3 class="title-w3 con">Carpool Provider Information</h2>
-		<p class="sub-text">Please provide the information of you carpool information</p>
-		<p><span class="error">* required field.</span></p>
 		<form method="get" class="contact_form slideanim">
 			<div class="message">
 				<div class="leftdiv">
 					<legend> STEP ONE </legend>
-					D_Date: <input type="date" class="margin-right" id="D_Date" name="D_Date" placeholder="D_Date">
-					<span class="error">* <!--?php echo $dateErr;?--></span>
-					D_Time: <input type="time" class="margin-right" id="D_Time" name="D_Time" placeholder="D_Time">
-					<span class="error">* <!--?php echo $timeErr;?--></span>
-					Contact(email): <input type="text" class="margin-right" id="Contact" name="Contact" placeholder="Contact (email)">
-					<span class="error">*<!--?php echo $contactErr;?--></span>
-					Price: <textarea id="Comment" name="Comment" rows="2" cols="30" placeholder="Price & Comment"></textarea>
+					D_Date: <span class="error">*</span>
+					<input type="date" class="margin-right" id="D_Date" name="D_Date" placeholder="D_Date">
+					
+					D_Time: <span class="error">*</span>
+					<input type="time" class="margin-right" id="D_Time" name="D_Time" placeholder="D_Time">
+					
+					Contact(email): <span class="error">*</span>
+					<input type="text" class="margin-right" id="Contact" name="Contact" placeholder="Contact (email)">
+					
+					Price & Comment: <span class="error">*</span>
+					<textarea id="Comment" name="Comment" rows="2" cols="30" placeholder="Price & Comment"></textarea>
 				</div>
 				<div class="rightdiv">
 					<legend> STEP TWO </legend>
-					S_Point: <input type="text" id="S_Point" name="S_Point" placeholder="S_Point">
-					<span class="error">*<!--?php echo $sPointErr;?--></span>
 					<br><br>
-					E_Point: <input type="text" id="E_Point" name="E_Point" placeholder="E_Point">
-					<span class="error">*<!--?php echo $ePointErr;?--></span>
+					S_Point: <span class="error">*</span>
+					<input type="text" id="S_Point" name="S_Point" placeholder="S_Point">
+					<br><br><br>
+					E_Point: <span class="error">*</span>
+					<input type="text" id="E_Point" name="E_Point" placeholder="E_Point">
+					
 				</div>
 				<br><br>
 			</div>
@@ -172,7 +221,7 @@
 
 <!-- footer -->
 <div class="copy-right">
-	<p>&copy; 2017 Dance Whirl. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+	<p>&copy; 2017 GEOG483 group. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> & Jiateng</p>
 </div>	
 <!-- //footer -->
 
@@ -185,17 +234,12 @@ var modal = document.getElementById('myModal');
 
 // Get the button that opens the modal
 var btn = document.getElementById("Preview");
-var btn2 = document.getElementById("myBtn");
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
 // When the user clicks on the button, open the modal 
 btn.onclick = function() {
-    modal.style.display = "block";
-	google.maps.event.trigger(map, "resize");
-}
-btn2.onclick = function() {
     modal.style.display = "block";
 	google.maps.event.trigger(map, "resize");
 }
@@ -262,6 +306,7 @@ function initMap() {
 } 
 
 </script>
-
+<script src="/carpool/js/jquery-2.2.3.min.js"></script> 
+<script src="js/bootstrap.js"></script>
 </body>
 </html>

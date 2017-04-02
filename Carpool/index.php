@@ -18,8 +18,9 @@
 
 <style>
 
-<!--.button {
-    background-color: #4CAF50; /* Green */
+.button {
+	width: 300px;
+    background-color: #787878;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -27,7 +28,14 @@
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-	}-->
+	margin: 0.7em 0.7em;
+	font-weight: 900;
+}
+
+a:hover.button  {
+	background-color: #E4B429;
+	color: #000000;
+}
 	
 <!-- Address -->
 .con-bot {
@@ -47,7 +55,7 @@
 .left-bw3 {
     float: left;
     width: 300px;
-	margin-left: 8em;
+	margin-left: 12em;
 	margin-right: 2em;
 	margin-top: 2em;
 	margin-botton: em;
@@ -83,6 +91,11 @@
     font-size: 1.1em;
     letter-spacing: 1px;
 }
+@media(max-width:1300px) {
+	.left-bw3 {
+		margin-left: 2em;
+	}
+}
 <!-- //Address -->
 
 
@@ -106,8 +119,8 @@
 						<div class="w3layouts-banner-top">
 							<div class="container">
 								<div class="agileits-banner-info">
-									<h3>Shall We <span>Dance</span> ?</h3>
-									<p>CELEBRATE YOUR EVENT WITH US</p>
+									<h3>UW<span class="fa fa-plus-square"></span>CARPOOL</h3>
+									<p>WatPool is designed for UW exclusively!</p>
 									<a href="/carpool/provider.php" class="button">I want to provide carpool</a>
 									<a href="/carpool/customer.php" class="button">I want to seek for carpool</a>
 								</div>	
@@ -119,8 +132,8 @@
 						<div class="w3layouts-banner-top w3layouts-banner-top1">
 							<div class="container">
 								<div class="agileits-banner-info">
-									<h3>Shall We <span>Dance</span> ?</h3>
-									<p>CELEBRATE YOUR EVENT WITH US</p>
+									<h3>UW<span class="fa fa-plus-square"></span>CARPOOL</h3>
+									<p>WatPool is designed for UW exclusively!</p>
 									<a href="/carpool/provider.php" class="button">I want to provide carpool</a>
 									<a href="/carpool/customer.php" class="button">I want to seek for carpool</a>
 								</div>	
@@ -132,8 +145,8 @@
 						<div class="w3layouts-banner-top w3layouts-banner-top2">
 							<div class="container">
 								<div class="agileits-banner-info">
-									<h3>Shall We <span>Dance</span> ?</h3>
-									<p>CELEBRATE YOUR EVENT WITH US</p>
+									<h3>UW<span class="fa fa-plus-square"></span>CARPOOL</h3>
+									<p>WatPool is designed for UW exclusively!</p>
 									<a href="/carpool/provider.php" class="button">I want to provide carpool</a>
 									<a href="/carpool/customer.php" class="button">I want to seek for carpool</a>
 								</div>
@@ -198,21 +211,21 @@
 		<div class="con-bot">
 			<div class="left-bw3">
 				<h5><i class="fa fa-envelope" aria-hidden="true"></i>Email</h5>
-				<p><br></p>
-				<a href="mailto:info@example.com">info@example.com</a>
-				<p><br></p>
+				<a href="mailto:j293xu@uwaterloo.ca">j293xu@uwaterloo.ca</a>
+				<a href="mailto:grycmg@yahoo.com">grycmg@yahoo.com</a>
+				<a href="mailto:y659zhan@uwaterloo.ca">y659zhan@uwaterloo.ca</a>
 			</div>
 			<div class="middle-bw3">
 				<h5><i class="fa fa-map-marker" aria-hidden="true"></i>Address</h5>
-				<p>New York 3000</p>
-				<p>40019 Honey Street,</p>
-				<p>Morocco Casablanca</p>
+				<p>200 University Avenue West</p>
+				<p>Waterloo, ON, Canada</p>
+				<p>N2L 3G1</p>
 			</div>
 			<div class="right-bw3">
 				<h5><i class="fa fa-phone" aria-hidden="true"></i>Phone</h5>
-				<p>+1 (734) 123-4567</p>
-				<p>+2158 85467</p>
-				<p>+2158 85467</p>
+				<p>+1 (519) 721-7627</p>
+				<p>+1 (519) 721-7627</p>
+				<p>+1 (519) 721-7627</p>
 			</div>
 		</div>
 	<div class="clearfix"></div>
@@ -222,7 +235,7 @@
 
 <!-- footer -->
 <div class="copy-right">
-	<p>&copy; 2017 Dance Whirl. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a></p>
+	<p>&copy; 2017 GEOG483 group. All rights reserved | Design by <a href="http://w3layouts.com/">W3layouts</a> & Jiateng</p>
 </div>	
 <!-- //footer -->
 <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>

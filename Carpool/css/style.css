@@ -50,7 +50,7 @@ h1 a.navbar-brand {
 nav.navbar.navbar-default.navbar-fixed-top {
     background:#000000;
     border: none;
-	padding-bottom: none;
+	padding-bottom: 0px;
 	padding-top: 0.5em;
 	-webkit-transition:.5s all;
 	-moz-transition:.5s all; 
@@ -78,35 +78,38 @@ nav.navbar.navbar-default.navbar-fixed-top.top-nav-collapse {
 /*-- //header --*/ 
 /*-- banner-text --*/ 
 .agileits-banner-info h3 {
-    color: #fff;
-    font-size: 4em;
+    color: #000000;
+    font-size: 12em;
     margin: 0;
-    letter-spacing: 13px;
+    letter-spacing: 5px;
     text-transform: uppercase;
-    font-weight: 400;
+    font-weight: 900;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
 }
 .agileits-banner-info h3 span{
-	background: #168eea;
+	color:#E4B429;
+	background: none;
     padding: 0 15px;
 }
 .agileits-banner-info {
     text-align: center;
-    padding:22em 0 0em;
+    padding:25em 0 0em;
 }
 .agileits-banner-info p {
-    color: #168eea;
-    font-size: 1em;
-    line-height: 1.8em;
-    letter-spacing: 10px;
-    background: rgba(0, 0, 0, 0.72);
+    color: #FFEA3D;
+    font-size: 1.5em;
+    line-height: 2em;
+    letter-spacing: 4px;
+    background: #000000;
     margin: 2em auto;
-    width: 57%;
+    width: 55%;
 }
 .agileits_w3layouts_more{
 	position:relative;
 }
 .agileits_w3layouts_more a{
-	    font-size: 17px;
+	font-size: 17px;
     color: #fff;
     text-decoration: none;
     text-transform: uppercase;
@@ -977,13 +980,13 @@ h6.bed.four{
     -o-background-size: cover;
 	position:relative;
 	padding-bottom: 3em;
-	height: 800px;
+	height: 545px;
 }
 .contact-top {
     position: absolute;
     width: 70%;
     left: 13%;
-    top:15.7%;
+    top:0px;
 }
 p.sub-text {
     text-align: center;
@@ -1001,13 +1004,13 @@ h3.title-w3.con {
 	color:#fff;
 }
 .contact_form input[type='text'], .contact_form input[type="date"], .contact_form input[type="time"] {
-       width: 100%;
+    width: 100%;
     border-radius: 0;
     line-height: 22px;
     font-size: 14px;
     padding: 14px 17px 14px;
     outline: none;
-    color: #FFF;
+    color: #000000;
     height: 50px;
     border: 1px solid #424141;
     margin: 0 0 20px;
@@ -1026,8 +1029,8 @@ h3.title-w3.con {
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	resize: none;
-	color: #FFF;
-	height: 130px;
+	color: #000000;
+	height: 100px;
 	border: 1px solid #424141;
     background: rgba(239, 235, 235, 0.18);
 	letter-spacing:1px;
@@ -1042,12 +1045,15 @@ form.contact_form {
 }
 
 .contact_form input[type="button"]{
-	
-    padding: 13px 30px;
-    border: 2px solid #168eea;
+	position: relative;
+	top: 50px;
+	left: 3.4em;
+    padding: 15px 40px;
+    border: none;
     font-size: 16px;
-    color: #fff;
-    background: #168eea;
+	font-weight: 900;
+    color: #E4B429;
+    background: #000000;
     text-decoration: none;
     outline: none;
     transition: 0.5s all;
@@ -1058,11 +1064,12 @@ form.contact_form {
 	letter-spacing:1px;
 }
 
-.more_btn:hover {
-    color: #FFF;
-    background-color:rgba(0, 0, 0, 0.8);
-    border-color: transparent;
+
+.contact_form input[type="button"]:hover  {
+	background-color: #FFD54F;
+	color: #000000;
 }
+
 
 /*-- Address --*/
 .con-bot {
@@ -1072,7 +1079,7 @@ form.contact_form {
 
 .left-bw3 h5, .middle-bw3 h5, .right-bw3 h5 {
     font-size: 2em;
-    color: #fff;
+    color: #000000;
     padding-bottom: 1em;
 }
 .left-bw3 h5 i, .middle-bw3 h5 i, .right-bw3 h5 i{
@@ -1080,30 +1087,39 @@ form.contact_form {
 }
 .left-bw3 {
     float: left;
-    width: 33.3%;
-    padding: 5em 2em;
-    background: #101010;
+    width: 300px;
+	margin-left: 12em;
+	margin-right: 2em;
+	margin-top: 2em;
+	margin-botton: em;
+    padding: 3em 2em;
+    background: #FFD54F;
+	border-radius: 16px;
 }
 .middle-bw3 {
     float: left;
-    width: 33.3%;
-    padding: 5em 2em;
-    background: #ee4f4f;
+    width: 300px;
+	margin: 2em 2em;
+    padding: 3em 2em;
+    background: #FFD54F;
+	border-radius: 16px;
 }
 .right-bw3 {
     float: left;
-    width: 33.4%;
-    padding: 5em 2em;
-    background: #168eea;
+    width: 300px;
+	margin: 2em 2em;
+    padding: 3em 2em;
+    background: #FFD54F;
+	border-radius: 16px;
 }
 .left-bw3 a {
-	color: #fff;
+	color: #000000;
     line-height: 30px;
     font-size: 1.1em;
     letter-spacing: 1px;
 }
 .con-bot p{
-    color: #fff;
+    color: #000000;
     line-height: 30px;
     font-size: 1.1em;
     letter-spacing: 1px;
@@ -1727,6 +1743,9 @@ section.social ul li {
 		width: 25%;
 		padding: 0 5px;
 	}
+	.left-bw3 {
+		margin-left: 2em;
+	}
 }
 @media(max-width:768px){
 	.ab-w3-agile-info-text {
@@ -1773,6 +1792,7 @@ section.social ul li {
 	.navbar {
 		padding-bottom: 0px;
 		padding-top: 0.3em;
+		padding-left: 1em;
 		-webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
 		-moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
 		transition: background .5s ease-in-out,padding .5s ease-in-out; 
