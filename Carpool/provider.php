@@ -225,7 +225,7 @@
 </div>	
 <!-- //footer -->
 
-<script type="text/javascript"> 
+<script type="text/javascript" async defer> 
 
 
 // model control
@@ -256,8 +256,6 @@ window.onclick = function(event) {
     }
 }
 
-
-var markers = [];
 var map, geocoder, directionsService, directionsDisplay;
 // set useing objects
 var startDate, startTime, startAddress, endAddress, Contact, price, S_Coordinate, E_Coordinate;
@@ -292,7 +290,6 @@ function initMap() {
 		SaveJson ();
 	});
 	document.getElementById("Preview").addEventListener('click', function() {
-		deleteMarkers();
 		data.startDate = document.getElementById("D_Date").value;
 		data.startTime = document.getElementById("D_Time").value;
 		data.Contact = document.getElementById("Contact").value;

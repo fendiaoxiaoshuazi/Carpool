@@ -101,11 +101,6 @@ function SaveSearch(search_D) {
 	xmlhttp,
 	myObj,
 	x = "", i = 1;
-	//markers1 = [];
-	//markers2 = [];
-	//cluster1 = [];
-	//cluster2 = [];
-	//circle = [];
 	var txt = "<table stype='width:100%'><tr><th>No</th><th>Date</th><th>Time</th><th>Start</th><th>End</th><th>Contact</th><th>Price</th></tr>";
 	//console.log(localStorage.getItem("testJSON"));
 	//myJSON = localStorage.getItem("testJSON")
@@ -192,7 +187,7 @@ function codeAddress_S(callback) {
 	}, function (results, status) {
 		if (status == 'OK') {
 			console.log("enteryes");
-			data.startAddress = results[0].formatted_address;
+			//data.startAddress = results[0].formatted_address;
 			data.S_Coordinate = results[0].geometry.location;
 
 			/*
@@ -238,7 +233,7 @@ function codeAddress_E(callback) {
 	}, function (results, status) {
 		if (status == 'OK') {
 			console.log("enteryes");
-			data.endAddress = results[0].formatted_address;
+			//data.endAddress = results[0].formatted_address;
 			data.E_Coordinate = results[0].geometry.location;
 			/*
 			var marker = new google.maps.Marker({

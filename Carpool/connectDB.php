@@ -26,5 +26,5 @@
 	}
 
 	//echo json_encode($data);
-	echo "".$sql."+".$result."";
+	echo "".$result."";
 ?>

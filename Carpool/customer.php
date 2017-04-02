@@ -8,8 +8,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">   
 
 <script src="/carpool/script.php" async defer></script>
+<script src="/carpool/library/markerclusterer/src/markerclusterer.js"></script> 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiHiLS6bxUWnytY2Nnr0ELahTxg6Kdpo8&callback=initMap&libraries=geometry" async defer></script> 
-<script src="/carpool/library/markerclusterer/src/markerclusterer.js" async defer></script> 
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- Custom Theme files -->
 <link href="/carpool/css/bootstrap.css" type="text/css" rel="stylesheet" media="all">
@@ -251,7 +251,7 @@ form.search_panel {
 <!-- //footer -->
 <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="color:#E4B429; opacity: 1;"> </span></a>
 
-<script type="text/javascript">
+<script type="text/javascript" async defer>
 
 // model control
 // Get the modal
@@ -286,8 +286,8 @@ window.onclick = function(event) {
 var markers1 = [];
 var markers2 = [];
 var circle = [];
-var map, Smap1, Smap2, geocoder, directionsService, directionsDisplay, markerCluster1, markerCluster2;
- 
+var map, Smap1, Smap2, geocoder, directionsService, directionsDisplay;
+var markerCluster1, markerCluster2;
    
 function initMap() { 
 	var myOptions = {
@@ -335,7 +335,6 @@ function initMap() {
 		deleteMarkers(Smap2, markers2);
 		deleteMarkers(map, circle);
 		SaveSearch(search_D);
-		console.log("2");
 	}); 
 }
 
